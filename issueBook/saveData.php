@@ -20,25 +20,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // ✅ 2. Check if book quantity is available
+    // ✅ 2. Check if student already has 5 books issued (not yet returned)
+    $maxBooksCheck = mysqli_query($conn, "SELECT COUNT(*) AS total FROM issue_books 
+        WHERE student_id = '$student_id' 
+        AND return_date IS NULL");
+
+    $maxBooksResult = mysqli_fetch_assoc($maxBooksCheck);
+
+    if ($maxBooksResult['total'] >= 5) {
+        $_SESSION['error'] = "❌ This student already has 5 books issued! Cannot issue more.";
+        header("Location: create.php");
+        exit;
+    }
+
+    // ✅ 3. Check if book quantity is available
     $check = mysqli_query($conn, "SELECT quantity FROM books WHERE id = '$book_id'");
     $row = mysqli_fetch_assoc($check);
 
-    if ($row && $row['quantity'] > 0) {
-        // ✅ 3. Insert new issue record
-        $sql = "INSERT INTO issue_books (student_id, book_id, issue_date, due_date) 
-                VALUES ('$student_id', '$book_id', '$issue_date', '$due_date')";
-        $insert = mysqli_query($conn, $sql);
+    if (!$row) {
+        $_SESSION['error'] = "❌ Book not found!";
+        header("Location: create.php");
+        exit;
+    }
 
-        // ✅ 4. Decrease book quantity
+    $quantity = $row['quantity'];
+
+    if ($quantity <= 0) {
+        $_SESSION['error'] = "⚠️ Book is out of stock! Cannot issue!";
+        header("Location: create.php");
+        exit;
+    }
+
+    // ✅ 4. Insert new issue record
+    $insert = mysqli_query($conn, "INSERT INTO issue_books (student_id, book_id, issue_date, due_date) 
+                                   VALUES ('$student_id', '$book_id', '$issue_date', '$due_date')");
+
+    if ($insert) {
+        // ✅ 5. Decrease book quantity
         mysqli_query($conn, "UPDATE books SET quantity = quantity - 1 WHERE id = '$book_id'");
 
         $_SESSION['success'] = "📚 Book issued successfully!";
         header("Location: index.php");
         exit;
     } else {
-        $_SESSION['error'] = "❌ Not enough quantity available!";
+        $_SESSION['error'] = "❌ Failed to issue book!";
         header("Location: create.php");
         exit;
     }
+} else {
+    $_SESSION['error'] = "❌ Invalid request!";
+    header("Location: create.php");
+    exit;
 }
+?>

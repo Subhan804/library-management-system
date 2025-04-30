@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
 
     // Check if book is still issued (return_date is empty)
     if ($return_date == NULL || $return_date == '') {
-        $_SESSION['error'] = "⚠️ Cannot delete! Book is still issued to student. Please return it first!";
+        $_SESSION['error'] = " Cannot delete! Book is still issued to student. Please return it first!";
         header("Location: index.php");
         exit;
     }

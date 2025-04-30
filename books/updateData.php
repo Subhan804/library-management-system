@@ -10,7 +10,7 @@ if (isset($_POST['update'])) {
     $quantity = $_POST['quantity'];
 
     $sql = "UPDATE books SET title='$title', author='$author', genre='$genre', quantity='$quantity' WHERE id=$id";
-    
+
     if (mysqli_query($conn, $sql)) {
         $_SESSION['success'] = "✏️ Book updated successfully!";
         header("Location: index.php");
@@ -21,4 +21,3 @@ if (isset($_POST['update'])) {
         exit();
     }
 }
-?>

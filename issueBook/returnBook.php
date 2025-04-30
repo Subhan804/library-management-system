@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
     // Increase quantity back
     $updateBook = "UPDATE books SET quantity = quantity + 1 WHERE id = '$book_id'";
     $bookResult = mysqli_query($conn, $updateBook);
-    
+
     if ($updateResult && $bookResult) {
         $_SESSION['success'] = "Book returned successfully!";
     } else {
@@ -28,4 +28,3 @@ if (isset($_GET['id'])) {
     header("Location: index.php");
     exit();
 }
-?>

@@ -31,7 +31,7 @@ include '../header.php';
         </div>
     </div>
 
-    <div class="text-success mb-4 mt-3"> 
+    <div class="text-success mb-4 mt-3">
         <hr>
     </div>
     <!-- Table -->
@@ -87,6 +87,6 @@ include '../header.php';
     </table>
 
 </div>
-</body>
-
-</html>
+<?php
+include '../footer.php';
+?>

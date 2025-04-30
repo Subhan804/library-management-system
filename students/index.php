@@ -1,6 +1,6 @@
-<?php 
-session_start(); 
-include '../header.php'; 
+<?php
+session_start();
+include '../header.php';
 ?>
 
 <?php if (isset($_GET['success']) && $_GET['success'] == 'add'): ?>
@@ -23,7 +23,8 @@ include '../header.php';
       </div>
     </div>
   </div>
-<?php unset($_SESSION['success']); endif; ?>
+<?php unset($_SESSION['success']);
+endif; ?>
 
 <?php if (isset($_SESSION['error'])): ?>
   <div class="row justify-content-center">
@@ -34,9 +35,10 @@ include '../header.php';
       </div>
     </div>
   </div>
-<?php unset($_SESSION['error']); endif; ?>
+<?php unset($_SESSION['error']);
+endif; ?>
 
-<div class="container">             
+<div class="container">
   <div class="row mt-5">
     <div class="col-6">
       <h2 class="mb-4 text-success">👨‍🎓 Student List</h2>
@@ -91,16 +93,16 @@ include '../header.php';
             <td><?= $row['email'] ?></td>
             <td>
               <?php
-                if (!empty($bookTitles)) {
-                  echo "<ul class='mb-0'>";
-                  foreach ($bookTitles as $title) {
-                    echo "<li>$title</li>";
-                  }
-                  echo "</ul>";
-                } else {
-                  echo "<span class='text-muted'>No books assigned</span>";
+              if (!empty($bookTitles)) {
+                echo "<ul class='mb-0'>";
+                foreach ($bookTitles as $title) {
+                  echo "<li>$title</li>";
                 }
-              ?>  
+                echo "</ul>";
+              } else {
+                echo "<span class='text-muted'>No books assigned</span>";
+              }
+              ?>
             </td>
             <td>
               <a href='update.php?id=<?= $row['id'] ?>' class="btn btn-success btn-sm">Edit</a>
@@ -117,5 +119,4 @@ include '../header.php';
   </table>
 </div>
 
-</body>
-</html>
+<?php include '../footer.php'; ?>
